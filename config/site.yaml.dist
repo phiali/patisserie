@@ -1,0 +1,29 @@
+# Timezone of the server/user
+timezone: "Australia/Sydney"
+
+# Login credentials used for website and API
+username: admin
+password:
+
+# Site information
+baseUrl: "https://example.com"
+siteTitle: "example.com"
+siteDescription: "My awesome blog"
+
+# Location, relative to the application root, of the content
+contentLocation: "public"
+defaultTemplate: "post.twig"
+contentFiles:
+  - "index.md"
+  - "index.txt"
+dynamicPages:
+  - "/index.md"
+  - "/archives/index.md"
+
+rss:
+  author: "Joe Bloggs"
+  email: "joe@example.com"
+
+  # Output files relative to the public folder
+  atomFile: "/feed.atom.xml"
+  rssFile: "/feed.rss.xml"

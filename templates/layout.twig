@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <title>{% if page_title is defined %} {{ page_title }} - {% endif %} alistairphillips.com</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link href="/static/styles/main.css"  rel="stylesheet" media="screen" />
+        <link href="/static/styles/prettyPhoto.css" rel="stylesheet" media="screen" />
+        <link href="/static/styles/bigfoot-default.css" rel="stylesheet" />
+        <link href="/static/styles/prism.css"  rel="stylesheet" media="screen" />
+        <!-- <link rel="alternate" type="application/rss+xml" title="/rss.xml" />-->
+    </head>
+    <body>
+
+        <div id="mastheadbackground">&nbsp;</div>
+        <section id="posts">
+            <div id="masthead">
+                <h1><a href="/">alistairphillips.com</a></h1>
+
+                <div id="fullabout" class="fa_normal">
+                    <p id="description">
+                        I&rsquo;m <a href="/about" rel="author">Alistair</a>:
+                        a web and mobile developer based in the Manning Valley, Australia.
+                    </p>
+                </div>
+            </div>
+
+            <br />
+            {% block content %}{% endblock %}
+
+            <footer style="text-align: center;">
+                <p>
+                    <a href="/archives">Archives</a>
+                </p>
+                <p>
+                    &copy;&nbsp;2004&ndash;{{ "now"|date('Y') }} Alistair Phillips.
+                </p>
+            </footer>
+        </section>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="/static/scripts/jquery.prettyPhoto.js"></script>
+        <script src="/static/scripts/bigfoot.min.js"></script>
+        <script src="/static/scripts/prism.min.js"></script>
+        <script type="text/javascript" charset="utf-8">
+            $(document).ready(function() {
+                $("a[rel^='prettyPhoto']").prettyPhoto({
+                    social_tools: false,
+                    deeplinking: false
+                });
+
+                $.bigfoot();
+            });
+        </script>
+    </body>
+</html>

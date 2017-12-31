@@ -1,0 +1,15 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+
+    <article>
+        <header>
+            {% if entry.hasFrontMatter('created_at') %}
+                <p><time>{{ entry.getFormattedDate('created_at', 'l, jS F Y @ H:i') }}</time></p>
+            {% endif %}
+        </header>
+
+        {{ entryContent }}
+    </article>
+
+{% endblock %}

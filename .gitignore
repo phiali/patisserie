@@ -1,0 +1,6 @@
+.idea
+config/site.yaml
+data/*
+vendor/*
+public/**
+!public/index.php

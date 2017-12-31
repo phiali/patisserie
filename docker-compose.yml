@@ -1,0 +1,27 @@
+#version: '2'
+#
+#volumes:
+#    logs:
+#        driver: local
+#
+#services:
+#    php:
+#        container_name: php
+#        build: docker/images/php
+#        working_dir: /var/www
+#        command: php -S 0.0.0.0:80 -t public public/index.php
+#        environment:
+#            docker: "true"
+#        ports:
+#            - 80:80
+#        volumes:
+#            - .:/var/www
+#            - logs:/var/www/logs
+
+patisserie:
+  build: .
+  dockerfile: Dockerfile
+  ports:
+   - "8080:80"
+  volumes:
+   - .:/var/www

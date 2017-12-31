@@ -1,0 +1,38 @@
+{% block content %}
+    {% for entry in entries %}
+        {% if entry.hasFrontMatter('template') %}
+            {% set template = entry.getFrontMatter('template') %}
+        {% else %}
+            {% set template = 'default' %}
+        {% endif %}
+        {% if 'aside' == template %}
+            <article>
+                <header>
+                    {% if entry.hasFrontMatter('created_at') %}
+                        <p>
+                            <time>{{ entry.getFormattedDate('created_at', 'l, jS F Y @ H:i') }}</time>
+                            <a href="{{ entry.getRelativeUrl }}" title="permalink to this entry">&infin;</a>
+                        </p>
+                    {% endif %}
+                </header>
+
+                {{ entry.getContent }}
+            </article>
+        {% else %}
+            <article>
+                <header>
+                    {% if entry.hasFrontMatter('title') %}
+                        {% set title = entry.getFrontMatter('title') %}
+                    {% elseif entry.hasFrontMatter('created_at') %}
+                        {% set title = entry.getFormattedDate('created_at', 'l, jS F Y @ H:i') %}
+                    {% else %}
+                        {% set title = 'Untitled' %}
+                    {% endif %}
+                    <a href="{{ entry.getRelativeUrl }}">{{ title | escape }}</a>
+                </header>
+            </article>
+        {% endif %}
+
+        {% if not loop.last %}<br /> {% endif %}
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "layout.twig" %}
+
+{% set postTitle = "Untitled" %}
+{% set linkTitle = "Permanent link to this entry" %}
+{% set linkUrl   = entry.getRelativeUrl() %}
+
+{% if entry.hasFrontMatter('title') %}
+    {% set postTitle = entry.getFrontMatter('title') %}
+    {% set linkTitle = "Permanent link to ’#{ entry.getFrontMatter('title') }’" %}
+{% endif %}
+
+{% if entry.hasFrontMatter(['link', 'title']) %}
+    {% set linkTitle = 'inside here' %}
+    {% set linkUrl = entry.getFrontMatter(['link', 'url']) %}
+
+    {% if entry.hasFrontMatter(['link', 'title']) %}
+        {% set linkTitle = "External link to ‘#{ entry.getFrontMatter(['link', 'title']) }’" %}
+    {% else %}
+        {% set linkTitle = "External link to ‘#{ entry.getFrontMatter(['link', 'url']) }’" %}
+    {% endif %}
+{% endif %}
+
+{% block content %}
+
+    <article>
+        <header>
+            <h2><a href="{{ linkUrl }}" title="{{ linkTitle }}">{{ postTitle | escape }}</a></h2>
+            {% if entry.hasFrontMatter('created_at') %}
+            <p><time>{{ entry.getFormattedDate('created_at', 'l, jS F Y') }}</time></p>
+            {% endif %}
+        </header>
+
+        {{ entryContent }}
+    </article>
+
+{% endblock %}

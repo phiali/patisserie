@@ -1,0 +1,108 @@
+{% extends "layout.twig" %}
+{% block title %}Edit Entry{% endblock %}
+
+{% block content %}
+<div class="card">
+<!--    <h4 class="card-header">Featured</h4>-->
+    <div class="card-body">
+        <h4 class="card-title">Editing "{{entryPath}}"</h4>
+        <p class="card-text">This entry is available at <a href="{{ entry.getRelativeUrl }}" target="_blank">{{ entry.getRelativeUrl }}</a></p>
+
+        <form method="post" action="{{formAction}}" enctype="multipart/form-data">
+            <input type="hidden" name="{{csrf.keys.name}}" value="{{csrf.name}}">
+            <input type="hidden" name="{{csrf.keys.value}}" value="{{csrf.value}}">
+
+
+            <div id="accordion" role="tablist">
+            <div class="card">
+                <div class="card-header" role="tab" id="headingOne">
+                    <h5 class="mb-0">
+                        <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Content
+                        </a>
+                    </h5>
+                </div>
+
+                <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="entryContent"></label>
+                            <textarea class="form-control" id="entryContent" name="entryContent" rows="10" placeholder="Content formatted as Markdown">{{ entryContent }}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" role="tab" id="headingTwo">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Front Matter
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="entryFrontMatter"></label>
+                            <textarea class="form-control" id="entryFrontMatter" name="entryFrontMatter" rows="5" placeholder="YAML FrontmMatter">{{ entryFrontMatter }}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" role="tab" id="headingThree">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Files
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="card-body">
+                        <!--<label class="custom-file">
+                            <input type="file" id="file" class="custom-file-input">
+                            <span class="custom-file-control"></span>
+                        </label>-->
+                        <label>Add files (multiple): </label><br/>
+                        <input type="file" name="userUploads[]" multiple="multiple"/>
+                        {% if userFiles %}
+                            <p></p>
+                            <div class="alert alert-warning" role="alert">
+                                The following files already exist. If you upload a file with the same name it'll overwrite any existing file.
+                            </div>
+                            <ul class="list-group">
+                            {% for userFile in userFiles %}
+                                <li class="list-group-item">
+                                    <i class="fa fa-file-o" aria-hidden="true"></i> {{ userFile }}
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <br />
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block javaScript %}
+<script>
+    $(document).ready(function() {
+        var simpleMarkdownEditor = new SimpleMDE({
+            element: $("#entryContent")[0],
+            autofocus: false,
+            autoDownloadFontAwesome: true,
+            autosave: true,
+            shortcuts: {
+                toggleHeadingSmaller: null // Was linked to Cmd-H which isn't great on macOS
+            }
+        });
+    });
+</script>
+{% endblock %}

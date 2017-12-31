@@ -1,0 +1,43 @@
+{% extends "layout.twig" %}
+{% block title %}Browse Entries{% endblock %}
+
+{% block content %}
+
+    </ul>
+    <div class="card">
+        <!--    <h4 class="card-header">Featured</h4>-->
+        <div class="card-body">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Browsing</li>
+                <li class="breadcrumb-item"><a href="/_p/browse">Home</a></li>
+                {% for url, text in pathParts %}
+                    {% if loop.last %}
+                        <li class="breadcrumb-item active">{{ text }}</li>
+                    {% else %}
+                        <li class="breadcrumb-item {{ class }}"><a href="/_p/browse?folder=/{{ url }}">{{ text }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ol>
+
+            {% if canCreateEntryHere %}
+            <p><a href="/_p/new?folder={{ path |default('/') }}">Create a new entry here.</a></p>
+            {% endif %}
+
+            <ul class="list-group">
+                {% for item, itemMetadata in pathContents %}
+                    <li class="list-group-item">
+                        {% if "directory" == itemMetadata["type"] %}
+                            {% set icon = "fa fa-folder-o" %}
+                            {% set url  = "/_p/browse?folder=#{ path }/#{ item }" %}
+                        {% else %}
+                            {% set icon = "fa fa-file-text-o" %}
+                            {% set url  = "/_p/edit?id=#{ path }" %}
+                        {% endif %}
+                        <i class="{{ icon }}" aria-hidden="true"></i>
+                        <a href="{{ url }}">{{ item }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

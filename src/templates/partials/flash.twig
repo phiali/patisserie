@@ -1,0 +1,16 @@
+{% if flash('success') %}
+    <div class="alert alert-success">
+        {% for msg in flash('success') %}
+            {{ msg }}
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% if flash('error') %}
+    <div class="alert alert-danger">
+        {% for msg in flash('error') %}
+            {{ msg }}
+        {% endfor %}
+    </div>
+{% endif %}
+
