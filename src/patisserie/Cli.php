@@ -13,6 +13,8 @@ class Cli
             $path = realpath(__DIR__ . '/../../');
             define('APPLICATION_PATH', $path);
         }
+
+        require __DIR__ . '/../../vendor/autoload.php';
     }
 
     // Mac-Mini:patisserie alistair$ clear && ./docker.sh composer index-site -- --test=me

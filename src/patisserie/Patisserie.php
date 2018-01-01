@@ -144,12 +144,15 @@ class Patisserie
             }
         }
 
-//        if (!$entries) {
-//            return;
-//        }
+        if (!$entries) {
+            return;
+        }
 
         foreach (array_merge($entries, $dynamicEntries) as $entryFilename) {
-            echo sprintf("Writing %s\n", $entryFilename);
+            if ('cli' === php_sapi_name()) {
+                echo sprintf("Writing %s\n", $entryFilename);
+            }
+
             try {
                 $entry = new Entry($entryFilename, $this->config['contentLocation']);
                 $entry->setBaseUrl($this->config['baseUrl']);
@@ -309,10 +312,10 @@ class Patisserie
             $entry->getOutputFile(), $entry->getContent()
         );
 
-        if ($entry->isIndexable()) {
+        /*if ($entry->isIndexable()) {
             $this->indexEntry($entry);
             $this->applyPlugin('contentWritten', [$entry]);
-        }
+        }*/
     }
 
     /**
@@ -436,6 +439,8 @@ class Patisserie
                 }
             }
         }
+
+        ksort($pathContents, SORT_NATURAL);
 
         return $pathContents;
     }

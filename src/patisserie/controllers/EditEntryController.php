@@ -35,7 +35,7 @@ class EditEntryController
 
         if (!is_file($entryPath) || !is_readable($entryPath)) {
             $this->container['flash']->addMessage('error', 'Unable to access ' . $relativePath);
-            return $response->withStatus(302)->withHeader('Location', '/p_admin/browse');
+            return $response->withStatus(302)->withHeader('Location', '/_p/browse');
         }
 
         $p = new Patisserie([]);
@@ -50,11 +50,27 @@ class EditEntryController
                 }
             }
 
+            /**
+             * We'll trigger a site rebuild if either the new post is indexable or the previous one was. This needs to
+             * be done so as to allow RSS feeds or the front page to be regenerated.
+             */
+            $rebuildSite   = false;
+            $originalEntry = $p->getEntry($relativeFile);
             $formData = $request->getParsedBody();
             $output   = sprintf("---\n%s---\n\n%s", $formData['entryFrontMatter'], $formData['entryContent']);
             file_put_contents($entryPath, $output, LOCK_EX);
             $entry = $p->getEntry($relativeFile);
-            $p->publishEntry($entry);
+
+            if ($entry->isIndexable() || $originalEntry->isIndexable()) {
+                $rebuildSite = true;
+            }
+
+            if ($rebuildSite) {
+                $p->buildSite(false);
+            } else {
+                $p->publishEntry($entry);
+            }
+
             unset($entry);
         }
 

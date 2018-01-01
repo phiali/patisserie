@@ -1,6 +1,9 @@
 .idea
 config/site.yaml
 data/*
+!data/.gitkeep
+!data/cache/.gitkeep
 vendor/*
 public/**
 !public/index.php
+!public/.htaccess

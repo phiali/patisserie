@@ -103,6 +103,10 @@
                 toggleHeadingSmaller: null // Was linked to Cmd-H which isn't great on macOS
             }
         });
+
+        $("form").on("submit", function () {
+            $("#modalPleaseWait").modal();
+        });
     });
 </script>
 {% endblock %}

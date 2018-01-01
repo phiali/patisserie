@@ -1,0 +1,17 @@
+DirectoryIndex index.html index.php
+
+RewriteEngine On
+
+# Some hosts may require you to use the `RewriteBase` directive.
+# If you need to use the `RewriteBase` directive, it should be the
+# absolute physical path to the directory that contains this htaccess file.
+#
+# RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} !-s
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteCond %{REQUEST_FILENAME} !-d
+# See https://stackoverflow.com/a/3220390/89783
+# We only want to route requests via PHP when it contains _p
+RewriteCond %{REQUEST_URI} /_p
+RewriteRule ^ index.php [QSA,L]
