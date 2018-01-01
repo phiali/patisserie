@@ -80,12 +80,16 @@ class NewEntryController
             $directory = dirname($entryPath);
 
             if (!is_dir($directory)) {
+                $existingUMask = umask(0);
                 mkdir($directory, 0777, true);
+                umask($existingUMask);
             }
 
             // Create the file and redirect the user to the edit page
             if (!file_exists($entryPath)) {
                 file_put_contents($entryPath, $body);
+                // Ensure that the file is writeable by all, see https://stackoverflow.com/a/1240731/89783
+                chmod($entryPath, fileperms($entryPath) | 128 + 16 + 2);
             }
 
             $editPath = str_replace(PUBLIC_FOLDER, '', dirname($entryPath));

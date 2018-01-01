@@ -312,6 +312,9 @@ class Patisserie
             $entry->getOutputFile(), $entry->getContent()
         );
 
+        // Ensure that the file is writeable by all, see https://stackoverflow.com/a/1240731/89783
+        chmod($entry->getOutputFile(), fileperms($entry->getOutputFile()) | 128 + 16 + 2);
+
         /*if ($entry->isIndexable()) {
             $this->indexEntry($entry);
             $this->applyPlugin('contentWritten', [$entry]);
