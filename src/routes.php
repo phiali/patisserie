@@ -6,6 +6,8 @@ $app->group('/_p', function() {
         ->setName('login');
     $this->map(['GET', 'POST'], '/configure/password', \Patisserie\Controllers\ConfigureController::class . ':password')
         ->setName('configure_password');
+    $this->map(['GET', 'POST'], '/xmlrpc', \Patisserie\Controllers\XmlRpcController::class . ':index')
+        ->setName('xmlrpc');
 });
 
 // Pages within authentication
