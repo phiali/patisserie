@@ -10,6 +10,14 @@ baseUrl: "https://example.com"
 siteTitle: "example.com"
 siteDescription: "My awesome blog"
 
+# Author information
+author:
+  firstName: "Joe"
+  lastName: "Bloggs"
+  fullName: "Joe Bloggs"
+  nickname: "joe"
+  email: "joe@example.com"
+
 # Location, relative to the application root, of the content
 contentLocation: "public"
 defaultTemplate: "post.twig"

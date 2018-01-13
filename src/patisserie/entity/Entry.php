@@ -195,7 +195,7 @@ class Entry
             $now       = new \DateTime();
             $createdAt = new \DateTime($this->getFrontMatter('created_at'));
 
-            return $createdAt >= $now;
+            return $createdAt > $now;
         }
 
         return false;

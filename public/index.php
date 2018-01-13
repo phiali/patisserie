@@ -36,6 +36,7 @@ $app = new \Slim\App($settings);
 
 // Register the View
 $container = $app->getContainer();
+$container['siteConfig'] = $siteConfiguration;
 $container['csrf'] = function ($container) {
     return new \Slim\Csrf\Guard;
 };
