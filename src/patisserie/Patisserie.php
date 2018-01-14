@@ -263,6 +263,7 @@ class Patisserie
         $twig        = $this->getTwig();
         $twig->addGlobal('siteTitle', $this->config['siteTitle']);
         $twig->addGlobal('author', $this->config['author']);
+        $twig->addGlobal('baseUrl', $this->config['baseUrl']);
 
         $entry->resetContent();
         $entry  = $this->applyPlugin('contentLoaded', $entry);
