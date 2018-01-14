@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <!-- Required meta tags -->
-        <title>{% if page_title is defined %} {{ page_title }} - {% endif %} alistairphillips.com</title>
+        <title>{% if page_title is defined %} {{ page_title }} - {% endif %}{{ siteTitle }}</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -19,7 +19,7 @@
         <div id="mastheadbackground">&nbsp;</div>
         <section id="posts">
             <div id="masthead">
-                <h1><a href="/">alistairphillips.com</a></h1>
+                <h1><a href="/">{{ siteTitle }}</a></h1>
 
                 <div id="fullabout" class="fa_normal">
                     <p id="description">
@@ -37,7 +37,7 @@
                     <a href="/archives">Archives</a>
                 </p>
                 <p>
-                    &copy;&nbsp;2004&ndash;{{ "now"|date('Y') }} Alistair Phillips.
+                    &copy;&nbsp;2004&ndash;{{ "now"|date('Y') }} {{ author.fullName }}.
                 </p>
             </footer>
         </section>

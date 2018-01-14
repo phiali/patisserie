@@ -5,21 +5,25 @@
         {% else %}
             {% set template = 'default' %}
         {% endif %}
-        {% if 'aside' == template %}
-            <article>
+        {% if 'aside.twig' == template %}
+            <article class="site-content format-aside">
+                {{ entry.getContent }}
+
                 <header>
                     {% if entry.hasFrontMatter('created_at') %}
                         <p>
-                            <time>{{ entry.getFormattedDate('created_at', 'l, jS F Y @ H:i') }}</time>
-                            <a href="{{ entry.getRelativeUrl }}" title="permalink to this entry">&infin;</a>
+                            <time>
+                                <a href="{{ entry.getRelativeUrl }}" title="permalink to this entry">
+                                    → {{ entry.getFormattedDate('created_at', 'Y-m-d @ H:i') }}
+                                </a>
+                            </time>
                         </p>
                     {% endif %}
                 </header>
-
-                {{ entry.getContent }}
             </article>
         {% else %}
             <article>
+            <article class="site-content format-standard">
                 <header>
                     {% if entry.hasFrontMatter('title') %}
                         {% set title = entry.getFrontMatter('title') %}
@@ -30,9 +34,10 @@
                     {% endif %}
                     <a href="{{ entry.getRelativeUrl }}">{{ title | escape }}</a>
                 </header>
+
+                {{ entry.getContent }}
             </article>
         {% endif %}
 
-        {% if not loop.last %}<br /> {% endif %}
     {% endfor %}
 {% endblock %}

@@ -23,7 +23,6 @@ contentLocation: "public"
 defaultTemplate: "post.twig"
 contentFiles:
   - "index.md"
-  - "index.txt"
 dynamicPages:
   - "/index.md"
   - "/archives/index.md"
