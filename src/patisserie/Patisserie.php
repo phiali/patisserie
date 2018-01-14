@@ -261,6 +261,8 @@ class Patisserie
         $frontMatter = $entry->getFrontMatter();
         $template    = ($frontMatter['template']) ?? $this->config['defaultTemplate'];
         $twig        = $this->getTwig();
+        $twig->addGlobal('siteTitle', $this->config['siteTitle']);
+        $twig->addGlobal('author', $this->config['author']);
 
         $entry->resetContent();
         $entry  = $this->applyPlugin('contentLoaded', $entry);
