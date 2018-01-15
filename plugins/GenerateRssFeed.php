@@ -14,13 +14,22 @@ class GenerateRssFeed implements Patisserie\PluginInterface
     public function generateRssFeed(array $input)
     {
         $config        = $this->patisserie->getConfig();
-        $recentEntries = $this->patisserie->getEntries('entryCreationTimestamp', SORT_DESC, 6, true);
+        $recentEntries = $this->patisserie->getEntries('entryCreationTimestamp', SORT_DESC, 10, true);
 
+        $feedModificationDate = time();
         $feed = new \Zend\Feed\Writer\Feed();
         $feed->setTitle($config['siteTitle']);
         $feed->setDescription($config['siteDescription']);
         $feed->setLink($config['baseUrl']);
-        $feed->setDateModified(time());
+        $feed->setDateModified($feedModificationDate);
+
+        $statusFeed = new \Zend\Feed\Writer\Feed();
+        $statusFeed->setTitle($config['siteTitle']);
+        $statusFeed->setDescription($config['siteDescription']);
+        $statusFeed->setLink($config['baseUrl']);
+        $statusFeed->setDateModified($feedModificationDate);
+
+        $statusFeedEmptyTitlePlaceholder = bin2hex(openssl_random_pseudo_bytes(16));
 
         foreach ($recentEntries as $entry) {
             if (!$entry->getContent()) {
@@ -52,6 +61,17 @@ class GenerateRssFeed implements Patisserie\PluginInterface
             }
 
             $feed->addEntry($feedItem);
+
+            /**
+             * http://micro.blog requires an empty title but we can't set that on the Feed Item as it's required.
+             * As a workaround we'll set it to a placeholder which we'll then strip when writing the feed.
+             */
+            $statusFeedItem = clone $feedItem;
+            if (!$entry->hasFrontMatter('title')
+                && $entry->hasFrontMatter('created_at')) {
+                $statusFeedItem->setTitle($statusFeedEmptyTitlePlaceholder);
+            }
+            $statusFeed->addEntry($statusFeedItem);
         }
 
         if ($config['rss']['atomFile']) {
@@ -59,6 +79,18 @@ class GenerateRssFeed implements Patisserie\PluginInterface
             $feedPath = sprintf("%s%s", $config['contentLocation'], $config['rss']['atomFile']);
             $feed->setFeedLink($feedUrl, 'atom');
             file_put_contents($feedPath, $feed->export('atom'));
+
+            // The aside feed is prefixed with .aside and placeholder title removed
+            $pathInfo = pathinfo($config['rss']['atomFile']);
+            $feedUrl  = sprintf("%s%saside.%s", $config['baseUrl'], $pathInfo['dirname'], $pathInfo['basename']);
+            $feedPath = sprintf("%s%saside.%s", $config['contentLocation'], $pathInfo['dirname'], $pathInfo['basename']);
+            $statusFeed->setFeedLink($feedUrl, 'atom');
+            $feedContents = str_replace(
+                '<![CDATA[' . $statusFeedEmptyTitlePlaceholder . ']]>',
+                '',
+                $statusFeed->export('atom')
+            );
+            file_put_contents($feedPath, $feedContents);
         }
 
         if ($config['rss']['rssFile']) {
@@ -66,6 +98,14 @@ class GenerateRssFeed implements Patisserie\PluginInterface
             $feedPath = sprintf("%s%s", $config['contentLocation'], $config['rss']['rssFile']);
             $feed->setFeedLink($feedUrl, 'rss');
             file_put_contents($feedPath, $feed->export('rss'));
+
+            // The aside feed is prefixed with .aside and placeholder title removed
+            $pathInfo = pathinfo($config['rss']['rssFile']);
+            $feedUrl  = sprintf("%s%saside.%s", $config['baseUrl'], $pathInfo['dirname'], $pathInfo['basename']);
+            $feedPath = sprintf("%s%saside.%s", $config['contentLocation'], $pathInfo['dirname'], $pathInfo['basename']);
+            $statusFeed->setFeedLink($feedUrl, 'rss');
+            $feedContents = str_replace($statusFeedEmptyTitlePlaceholder, '', $statusFeed->export('rss'));
+            file_put_contents($feedPath, $feedContents);
         }
 
         return $input;
