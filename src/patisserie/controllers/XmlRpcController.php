@@ -74,6 +74,14 @@ class XmlRpcController
             );
         });
 
+        $server->add_to_map('blogger.getUsersBlogs', function(\PhpXmlRpc\Request $message) {
+            return self::getUsersBlogs(
+                $message->getParam(1)->scalarval(),
+                $message->getParam(2)->scalarval(),
+                $this->siteConfig
+            );
+        });
+
         $server->add_to_map('metaWeblog.getUserInfo', function(\PhpXmlRpc\Request $message) {
             return self::getUserInfo(
                 $message->getParam(1)->scalarval(),

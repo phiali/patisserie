@@ -144,11 +144,11 @@ class GenerateRssFeed implements Patisserie\PluginInterface
                 continue;
             }
 
-            $urlSearch[]  = $link;
+            $urlSearch[$link] = $link;
             if ($this->isRelativeLink($link)) {
-                $urlReplace[] = sprintf("%s%s", $entry->getBaseUrl(), $link);
+                $urlReplace[$link] = sprintf("%s%s", $entry->getBaseUrl(), $link);
             } else {
-                $urlReplace[] = sprintf("%s%s/%s", $entry->getBaseUrl(), $entry->getRelativeUrl(), $link);
+                $urlReplace[$link] = sprintf("%s%s/%s", $entry->getBaseUrl(), $entry->getRelativeUrl(), $link);
             }
         }
 

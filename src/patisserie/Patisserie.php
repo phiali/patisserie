@@ -162,9 +162,7 @@ class Patisserie
             }
         }
 
-        if ($entries) {
-            $this->applyPlugin('contentWritten', $entries);
-        }
+        $this->applyPlugin('contentWritten', $entries);
     }
 
     /**
