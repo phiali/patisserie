@@ -14,7 +14,8 @@
         "tuupola/slim-basic-auth": "^2.2",
         "zendframework/zend-mime": "^2.7",
         "zendframework/zend-mail": "^2.8",
-        "phpxmlrpc/phpxmlrpc": "^4.3"
+        "phpxmlrpc/phpxmlrpc": "^4.3",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {
