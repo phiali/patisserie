@@ -253,6 +253,9 @@ class Patisserie
     /**
      * @param Entry $entry
      * @return Entry
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     public function renderEntry(Entry $entry)
     {
@@ -305,6 +308,9 @@ class Patisserie
     /**
      * Publish the given Entry generating rendered output
      * @param Entry $entry
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     public function publishEntry(Entry $entry)
     {
@@ -326,6 +332,9 @@ class Patisserie
      * @param $filename
      * @param bool $suppressRendering
      * @return Entry
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     public function getEntry($filename, $suppressRendering = false)
     {
@@ -342,6 +351,9 @@ class Patisserie
      * @param int $limit Number of entries to restrict results to (0 for all)
      * @param bool $suppressRendering Whether to suppress the rendering of the entries
      * @return Entity\Entry[] Array of entries
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     public function getEntries($sortBy, $sortDirection, $limit, $suppressRendering)
     {
